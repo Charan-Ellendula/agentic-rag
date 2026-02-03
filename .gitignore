@@ -1,0 +1,7 @@
+.envnnn
+.env.*
+
+# Secrets
+.env
+.env.*
+.envnnn
