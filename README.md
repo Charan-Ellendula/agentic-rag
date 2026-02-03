@@ -1,6 +1,7 @@
+# Agentic RAG System – PDF Question Answering with FastAPI, FAISS & Gemini
 
-
-# Agentic RAG System (PDF Question Answering)
+This project is an Agentic Retrieval-Augmented Generation (RAG) system that allows users to upload PDFs and ask questions using LLMs.  
+It uses FAISS vector search, Gemini embeddings, and FastAPI to build a production-ready document AI assistant.
 
 A production-style **Retrieval-Augmented Generation (RAG)** system that allows users to upload and query multiple PDF/text documents using:
 
@@ -174,4 +175,8 @@ You can:
 
 **Sai Charan Ellendula**
 Senior AI/ML Engineer (GenAI, RAG, LLM Systems)
+
+## Keywords
+RAG, Agentic AI, LLM, FastAPI, FAISS, PDF QA, Vector Database, Document AI, Gemini, Embeddings
+
 
