@@ -1,41 +1,35 @@
-# Agentic RAG System
 
-A Retrieval-Augmented Generation (RAG) system that lets you query your own
-PDFs and text files using Gemini embeddings, FAISS vector search, and FastAPI.
 
-This system grounds LLM responses in real documents and returns answers
-with citations.
+# Agentic RAG System (PDF Question Answering)
 
----
+A production-style **Retrieval-Augmented Generation (RAG)** system that allows users to upload and query multiple PDF/text documents using:
 
-## Architecture
+* **Gemini Embeddings**
+* **FAISS vector database**
+* **FastAPI backend**
+* **Simple Web UI**
 
-User Question
-      ↓
-Embed Query (Gemini)
-      ↓
-FAISS Vector Search (Top-K Chunks)
-      ↓
-Context Injection
-      ↓
-Gemini LLM
-      ↓
-Grounded Answer + Citations
+This project demonstrates the full lifecycle of an AI knowledge system: ingestion → chunking → embedding → retrieval → generation.
 
 ---
 
-## Features
-- PDF + text ingestion
-- Text cleaning & chunking
-- Gemini embeddings
-- FAISS vector store
-- Grounded answers with citations
-- FastAPI backend
-- Multi-document knowledge base
+## Tech Stack
+
+| Layer      | Technology                  |
+| ---------- | --------------------------- |
+| Backend    | FastAPI                     |
+| LLM        | Gemini                      |
+| Embeddings | Gemini `text-embedding-004` |
+| Vector DB  | FAISS                       |
+| Parsing    | PyPDF                       |
+| Language   | Python 3.9+                 |
+| UI         | HTML + JS                   |
+| Deployment | Uvicorn                     |
 
 ---
 
 ## Project Phases
+
 1. Environment & API setup
 2. Document ingestion (PDF/text)
 3. Cleaning & token safety
@@ -46,6 +40,59 @@ Grounded Answer + Citations
 8. Multi-document scaling
 9. Web UI (basic)
 10. GitHub + secret protection
+
+---
+
+## API Endpoints
+
+### Health Check
+
+```
+GET /health
+```
+
+### Ingest Documents
+
+Reads all files from `data/raw/`, chunks them, embeds them, and builds the FAISS index.
+
+```
+POST /ingest
+```
+
+**Example:**
+
+```bash
+curl -X POST "http://127.0.0.1:8000/ingest" \
+  -H "Content-Type: application/json" \
+  -d '{}'
+```
+
+---
+
+### Ask a Question
+
+Retrieves the most relevant chunks and generates an answer.
+
+```
+POST /query
+```
+
+**Request:**
+
+```json
+{
+  "question": "What is AI?",
+  "top_k": 8
+}
+```
+
+**Example:**
+
+```bash
+curl -X POST "http://127.0.0.1:8000/query" \
+  -H "Content-Type: application/json" \
+  -d '{"question":"What is this book about?", "top_k": 8}'
+```
 
 ---
 
@@ -60,6 +107,71 @@ source .venv/bin/activate
 pip install -r requirements.txt
 
 cp .env.example .env
-# add your GEMINI_API_KEY in .env
+# add your GEMINI_API_KEY inside .env
 
 python -m uvicorn app.main:app --reload
+```
+
+Open:
+
+```
+http://127.0.0.1:8000
+```
+
+---
+
+## Data Ingestion
+
+Place any PDF or text files inside:
+
+```
+data/raw/
+```
+
+Then run:
+
+```bash
+curl -X POST "http://127.0.0.1:8000/ingest"
+```
+
+---
+
+## Web UI
+
+A minimal UI is available at:
+
+```
+http://127.0.0.1:8000
+```
+
+You can:
+
+* Ask questions
+* Re-ingest documents
+* View answers with citations
+
+---
+
+## Security
+
+* `.env` files are ignored
+* Secrets are never committed
+* GitHub push protection enabled
+
+---
+
+## Example Use Cases
+
+* AI textbook QA
+* Legal document search
+* Company policy assistant
+* Research paper search
+* Knowledge base chatbot
+
+---
+
+## Author
+
+**Sai Charan Ellendula**
+Senior AI/ML Engineer (GenAI, RAG, LLM Systems)
+
